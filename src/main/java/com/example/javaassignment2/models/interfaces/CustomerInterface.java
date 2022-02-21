@@ -19,6 +19,6 @@ public interface CustomerInterface {
     Customer addNewCustomer(Customer newCustomer);
     Customer updateCustomer(Customer updatedCustomer);
 
-    CustomerGenre getMostPopularGenreForCustomer(String id);
+    CustomerGenre getMostPopularGenreForCustomer(Customer customer);
 
 }

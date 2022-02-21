@@ -3,11 +3,12 @@ package com.example.javaassignment2.models;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomerGenre extends Customer{
-    private final List<String> genres =new ArrayList<>();
+public class CustomerGenre{
+    private Customer customer;
+    private final List<String> genres = new ArrayList<>();
 
-    public CustomerGenre(String customerID, String firstName, String lastName, String country, String postalCode, String phone, String email, String genre) {
-        super(customerID, firstName, lastName, country, postalCode, phone, email);
+    public CustomerGenre(Customer customer) {
+        this.customer = customer;
     }
 
     public List<String> getGenres() {
