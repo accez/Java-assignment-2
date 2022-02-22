@@ -53,7 +53,10 @@ public class CustomerGenre{
     @Override
     public String toString() {
         return "CustomerGenre{" +
-                "genres=" + genres +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", genres=" + genres +
                 '}';
     }
 }

@@ -3,7 +3,7 @@ package com.example.javaassignment2.models;
 public class Customer {
 
 
-    private String customerID;
+    private int customerID;
     private String firstName;
     private String lastName;
     private String country;
@@ -12,7 +12,7 @@ public class Customer {
     private String email;
 
 
-    public Customer(String customerID, String firstName, String lastName, String country, String postalCode, String phone, String email) {
+    public Customer(int customerID, String firstName, String lastName, String country, String postalCode, String phone, String email) {
         this.customerID = customerID;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -26,11 +26,11 @@ public class Customer {
 
     }
 
-    public String getCustomerID() {
+    public int getCustomerID() {
         return customerID;
     }
 
-    public void setCustomerID(String customerID) {
+    public void setCustomerID(int customerID) {
         this.customerID = customerID;
     }
 

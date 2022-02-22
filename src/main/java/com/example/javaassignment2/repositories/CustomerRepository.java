@@ -34,7 +34,7 @@ public class CustomerRepository implements CustomerInterface {
             while (resultSet.next()) {
                 customers.add(
                         new Customer(
-                                resultSet.getString("CustomerId"),
+                                resultSet.getInt("CustomerId"),
                                 resultSet.getString("FirstName"),
                                 resultSet.getString("LastName"),
                                 resultSet.getString("Country"),
@@ -117,8 +117,8 @@ public class CustomerRepository implements CustomerInterface {
                 CustomerSpender customerSpender = new CustomerSpender();
                 customerSpender.setId(resultSet.getInt("CustomerId"));
                 customerSpender.setFirstName(resultSet.getString("FirstName"));
-                customerSpender.setFirstName(resultSet.getString("LastName"));
-                customerSpender.setFirstName(resultSet.getString("Country"));
+                customerSpender.setLastName(resultSet.getString("LastName"));
+                customerSpender.setCountry(resultSet.getString("Country"));
                 customerSpender.setTotalSpending(resultSet.getDouble("total"));
                 customerSpenders.add(customerSpender);
             }
@@ -138,7 +138,7 @@ public class CustomerRepository implements CustomerInterface {
     }
 
     @Override
-    public Customer selectCustomerById(String id) {
+    public Customer selectCustomerById(int id) {
         Customer customer = null;
         try {
             // Open Connection
@@ -149,7 +149,7 @@ public class CustomerRepository implements CustomerInterface {
             PreparedStatement preparedStatement =
                     conn.prepareStatement("SELECT CustomerId,FirstName,LastName,Country, PostalCode, Phone, Email FROM Customer WHERE CustomerId LIKE ?");
 
-            preparedStatement.setString(1, id);
+            preparedStatement.setInt(1, id);
             // Execute Statement
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -157,7 +157,7 @@ public class CustomerRepository implements CustomerInterface {
 
             while (resultSet.next()) {
                 customer = new Customer(
-                        resultSet.getString("CustomerId"),
+                        resultSet.getInt("CustomerId"),
                         resultSet.getString("FirstName"),
                         resultSet.getString("LastName"),
                         resultSet.getString("Country"),
@@ -204,7 +204,7 @@ public class CustomerRepository implements CustomerInterface {
 
             while (resultSet.next()) {
                 customer = new Customer(
-                        resultSet.getString("CustomerId"),
+                        resultSet.getInt("CustomerId"),
                         resultSet.getString("FirstName"),
                         resultSet.getString("LastName"),
                         resultSet.getString("Country"),
@@ -237,9 +237,7 @@ public class CustomerRepository implements CustomerInterface {
             PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO Customer(FirstName,LastName,Country, PostalCode, Phone, Email) VALUES(?, ?, ?, ?,?,?)");
             setQueryParams(newCustomer, preparedStatement);
 
-            int rowsEffected = preparedStatement.executeUpdate();
-
-            System.out.println(rowsEffected);
+            preparedStatement.executeUpdate();
         } catch (Exception ex) {
             System.out.println("Something went wrong...");
             System.out.println(ex);
@@ -253,6 +251,8 @@ public class CustomerRepository implements CustomerInterface {
                 System.out.println(ex);
             }
         }
+        //Varför får vi ingt object tillbaka???
+        System.out.println(newCustomer);
         return newCustomer;
     }
 
@@ -263,7 +263,7 @@ public class CustomerRepository implements CustomerInterface {
 
             PreparedStatement preparedStatement = conn.prepareStatement("UPDATE Customer SET FirstName = ?,LastName = ?,Country = ?, PostalCode = ?, Phone = ?, Email = ? WHERE CustomerId like ?");
             setQueryParams(updatedCustomer, preparedStatement);
-            preparedStatement.setString(7, updatedCustomer.getCustomerID());
+            preparedStatement.setInt(7, updatedCustomer.getCustomerID());
 
             int rowsEffected = preparedStatement.executeUpdate();
             System.out.println(rowsEffected);
@@ -286,40 +286,49 @@ public class CustomerRepository implements CustomerInterface {
     @Override
     public CustomerGenre getMostPopularGenreForCustomer(int id) {
 
-        CustomerGenre customerGenre = new CustomerGenre();
+        CustomerGenre customerGenre = null;
         try {
             conn = DriverManager.getConnection(URL);
 
-            PreparedStatement preparedStatement = conn.prepareStatement("SELECT testname \n" +
-                    "from (\n" +
-                    "         SELECT count(*) as total, G.Name as testname, Customer.*\n" +
-                    "         FROM Customer\n" +
-                    "                  inner join Invoice I on Customer.CustomerId = I.CustomerId\n" +
-                    "                  inner join InvoiceLine IL on I.InvoiceId = IL.InvoiceId\n" +
-                    "                  inner join Track T on T.TrackId = IL.TrackId\n" +
-                    "                  inner join Genre G on G.GenreId = T.GenreId\n" +
-                    "         where I.CustomerId like ? \n" +
-                    "         GROUP BY G.Name\n" +
-                    "     )\n" +
-                    "WHERE total = (SELECT min(total)\n" +
-                    "               from (SELECT count(*) as total\n" +
-                    "                     FROM Customer\n" +
-                    "                              inner join Invoice I on Customer.CustomerId = I.CustomerId\n" +
-                    "                              inner join InvoiceLine IL on I.InvoiceId = IL.InvoiceId\n" +
-                    "                              inner join Track T on T.TrackId = IL.TrackId\n" +
-                    "                              inner join Genre G on G.GenreId = T.GenreId\n" +
-                    "                     where I.CustomerId like ?\n" +
-                    "                     GROUP BY G.Name));");
+            PreparedStatement preparedStatement = conn.prepareStatement("""
+                        SELECT genreName, firstName, lastName, customerId
+                                                                from (
+                                                                         SELECT count(*) as total, G.Name as genreName,  Customer.FirstName as firstName, Customer.LastName as lastName, Customer.CustomerId as customerId
+                                                                        FROM Customer
+                                                                                 inner join Invoice I on Customer.CustomerId = I.CustomerId
+                                                                                inner join InvoiceLine IL on I.InvoiceId = IL.InvoiceId
+                                                                                  inner join Track T on T.TrackId = IL.TrackId
+                                                                                 inner join Genre G on G.GenreId = T.GenreId
+                                                                        where I.CustomerId like ?
+                                                                         GROUP BY G.Name
+                                                                     )
+                                                                WHERE total = (SELECT MAX(total)
+                                                                               from (SELECT count(*) as total
+                                                                                     FROM Customer
+                                                                                              inner join Invoice I on Customer.CustomerId = I.CustomerId
+                                                                                              inner join InvoiceLine IL on I.InvoiceId = IL.InvoiceId
+                                                                                              inner join Track T on T.TrackId = IL.TrackId
+                                                                                              inner join Genre G on G.GenreId = T.GenreId
+                                                                                     where I.CustomerId like ?
+                                                                                     GROUP BY G.Name))""");
 
             preparedStatement.setInt(1, id);
             preparedStatement.setInt(2, id);
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
+            customerGenre = new CustomerGenre();
+
             while (resultSet.next()) {
-                customerGenre.addGenres(resultSet.getString("testname"));
+
+                customerGenre.setId(resultSet.getInt("customerId"));
+                customerGenre.setFirstName(resultSet.getString("firstName"));
+                customerGenre.setLastName(resultSet.getString("lastName"));
+                customerGenre.addGenres(resultSet.getString("genreName"));
             }
 
+
+            System.out.println(customerGenre);
         } catch (Exception ex) {
             System.out.println("Something went wrong...");
             System.out.println(ex);
@@ -327,12 +336,12 @@ public class CustomerRepository implements CustomerInterface {
             try {
                 // Close Connection
                 conn.close();
-                return null;
             } catch (Exception ex) {
                 System.out.println("Something went wrong while closing connection.");
                 System.out.println(ex);
             }
         }
+        System.out.println( "rutnr " + customerGenre);
         return customerGenre;
     }
 

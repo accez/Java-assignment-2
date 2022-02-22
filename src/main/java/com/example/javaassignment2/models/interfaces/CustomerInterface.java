@@ -19,7 +19,7 @@ public interface CustomerInterface {
 
     List<CustomerSpender>selectAllCustomersOrderByHighestSpender();
 
-    Customer selectCustomerById(String id);
+    Customer selectCustomerById(int id);
     Customer selectCustomerByName(String firstName, String lastName);
     Customer addNewCustomer(Customer newCustomer);
     Customer updateCustomer(Customer updatedCustomer);
