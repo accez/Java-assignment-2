@@ -1,12 +1,55 @@
 package com.example.javaassignment2.models;
 
-public class CustomerSpender extends Customer {
+public class CustomerSpender {
     private double totalSpending;
+    private int id;
+    private String firstName;
+    private String lastName;
+    private String country;
 
-    public CustomerSpender(String customerID, String firstName, String lastName, String country, String postalCode, String phone, String email, double totalSpending) {
-        super(customerID, firstName, lastName, country, postalCode, phone, email);
+    public CustomerSpender() {
+    }
+
+    public double getTotalSpending() {
+        return totalSpending;
+    }
+
+    public void setTotalSpending(double totalSpending) {
         this.totalSpending = totalSpending;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
 
     @Override
     public String toString() {

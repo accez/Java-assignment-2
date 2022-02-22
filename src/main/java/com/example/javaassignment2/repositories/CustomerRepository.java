@@ -1,21 +1,24 @@
 package com.example.javaassignment2.repositories;
 
 import com.example.javaassignment2.models.Customer;
+import com.example.javaassignment2.models.CustomerCountry;
 import com.example.javaassignment2.models.CustomerGenre;
 import com.example.javaassignment2.models.CustomerSpender;
 import com.example.javaassignment2.models.interfaces.CustomerInterface;
+import org.springframework.stereotype.Service;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class CustomerRepository implements CustomerInterface {
     String URL = "jdbc:sqlite::resource:Chinook_Sqlite.sqlite";
     Connection conn = null;
 
     @Override
     public List<Customer> selectAllCustomers() {
-        ArrayList<Customer> customers = new ArrayList<Customer>();
+        ArrayList<Customer> customers = new ArrayList<>();
         try {
             // Open Connection
             conn = DriverManager.getConnection(URL);
@@ -62,11 +65,47 @@ public class CustomerRepository implements CustomerInterface {
     }
 
     @Override
+    public List<CustomerCountry> selectNumberOfCustomersPerCountry() {
+        ArrayList<CustomerCountry> customerCountry = new ArrayList<>();
+        try {
+            // Open Connection
+            conn = DriverManager.getConnection(URL);
+            System.out.println("Connection to SQLite has been established.");
+
+            // Prepare Statement
+            PreparedStatement preparedStatement =
+                    conn.prepareStatement("SELECT Country, count() as total FROM Customer GROUP BY Country ORDER BY total DESC");
+            // Execute Statement
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            // Process Results
+            while (resultSet.next()) {
+                customerCountry.add(new CustomerCountry(
+                        resultSet.getString("Country"),
+                        resultSet.getInt("total")
+                ));
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                // Close Connection
+                conn.close();
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+
+            }
+        }
+        return customerCountry;
+    }
+
+    @Override
     public List<CustomerSpender> selectAllCustomersOrderByHighestSpender() {
         List<CustomerSpender> customerSpenders = new ArrayList<>();
         try {
             conn = DriverManager.getConnection(URL);
-            PreparedStatement preparedStatement = conn.prepareStatement("SELECT Customer.CustomerId, FirstName, LastName, Country, PostalCode, Phone, Email, SUM(I.Total) as total\n" +
+            PreparedStatement preparedStatement = conn.prepareStatement("SELECT Customer.CustomerId, FirstName, LastName, Country, SUM(I.Total) as total\n" +
                     "from Customer\n" +
                     "         inner join Invoice I on Customer.CustomerId = I.CustomerId\n" +
                     "group by I.CustomerId\n" +
@@ -75,15 +114,13 @@ public class CustomerRepository implements CustomerInterface {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                customerSpenders.add(new CustomerSpender(
-                        resultSet.getString("CustomerId"),
-                        resultSet.getString("FirstName"),
-                        resultSet.getString("LastName"),
-                        resultSet.getString("Country"),
-                        resultSet.getString("PostalCode"),
-                        resultSet.getString("Phone"),
-                        resultSet.getString("Email"),
-                        resultSet.getDouble("total")));
+                CustomerSpender customerSpender = new CustomerSpender();
+                customerSpender.setId(resultSet.getInt("CustomerId"));
+                customerSpender.setFirstName(resultSet.getString("FirstName"));
+                customerSpender.setFirstName(resultSet.getString("LastName"));
+                customerSpender.setFirstName(resultSet.getString("Country"));
+                customerSpender.setTotalSpending(resultSet.getDouble("total"));
+                customerSpenders.add(customerSpender);
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -247,9 +284,9 @@ public class CustomerRepository implements CustomerInterface {
     }
 
     @Override
-    public CustomerGenre getMostPopularGenreForCustomer(Customer customer) {
+    public CustomerGenre getMostPopularGenreForCustomer(int id) {
 
-        CustomerGenre customerGenre = new CustomerGenre(customer);
+        CustomerGenre customerGenre = new CustomerGenre();
         try {
             conn = DriverManager.getConnection(URL);
 
@@ -274,8 +311,8 @@ public class CustomerRepository implements CustomerInterface {
                     "                     where I.CustomerId like ?\n" +
                     "                     GROUP BY G.Name));");
 
-            preparedStatement.setString(1, customer.getCustomerID());
-            preparedStatement.setString(2, customer.getCustomerID());
+            preparedStatement.setInt(1, id);
+            preparedStatement.setInt(2, id);
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
