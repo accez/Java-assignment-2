@@ -105,11 +105,12 @@ public class CustomerRepository implements CustomerInterface {
         List<CustomerSpender> customerSpenders = new ArrayList<>();
         try {
             conn = DriverManager.getConnection(URL);
-            PreparedStatement preparedStatement = conn.prepareStatement("SELECT Customer.CustomerId, FirstName, LastName, Country, SUM(I.Total) as total\n" +
-                    "from Customer\n" +
-                    "         inner join Invoice I on Customer.CustomerId = I.CustomerId\n" +
-                    "group by I.CustomerId\n" +
-                    "order by total DESC");
+            PreparedStatement preparedStatement = conn.prepareStatement("""
+                    SELECT Customer.CustomerId, FirstName, LastName, Country, SUM(I.Total) as total
+                    from Customer
+                             inner join Invoice I on Customer.CustomerId = I.CustomerId
+                    group by I.CustomerId
+                    order by total DESC""");
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
