@@ -9,4 +9,6 @@ import java.util.List;
 public interface TrackInterface extends MusicInterface<Track> {
     @Override
     List<Track> selectRandom();
+
+    List<Track>getTrackInformation(String trackName);
 }

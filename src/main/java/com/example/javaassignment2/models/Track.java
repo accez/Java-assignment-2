@@ -4,11 +4,46 @@ public class Track {
     private int trackId;
     private String name;
     private String composer;
+    private String artistName;
+    private String albumName;
+    private String genre;
 
     public Track(int trackId, String name, String composer) {
         this.trackId = trackId;
         this.name = name;
         this.composer = composer;
+    }
+
+    public Track(int trackId, String name, String artistName, String albumName, String genre) {
+        this.trackId = trackId;
+        this.name = name;
+        this.artistName = artistName;
+        this.albumName = albumName;
+        this.genre = genre;
+    }
+
+    public String getArtistName() {
+        return artistName;
+    }
+
+    public void setArtistName(String artistName) {
+        this.artistName = artistName;
+    }
+
+    public String getAlbumName() {
+        return albumName;
+    }
+
+    public void setAlbumName(String albumName) {
+        this.albumName = albumName;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
     }
 
     public int getTrackId() {

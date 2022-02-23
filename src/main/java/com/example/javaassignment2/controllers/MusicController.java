@@ -8,6 +8,7 @@ import com.example.javaassignment2.models.interfaces.GenreInterface;
 import com.example.javaassignment2.models.interfaces.TrackInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -35,5 +36,9 @@ public class MusicController {
     @GetMapping("track/random")
     public List<Track> getRandomTrack(){
         return trackInterface.selectRandom();
+    }
+    @GetMapping("track/{name}")
+    public List <Track> getTrackByName(@PathVariable String name){
+        return trackInterface.getTrackInformation(name);
     }
 }

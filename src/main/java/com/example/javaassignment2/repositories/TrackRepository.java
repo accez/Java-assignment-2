@@ -55,4 +55,53 @@ public class TrackRepository implements TrackInterface {
         }
         return tracks;
     }
+
+    @Override
+    public List<Track> getTrackInformation(String trackName) {
+        List <Track> track = new ArrayList<>();
+        try {
+            // Open Connection
+            conn = DriverManager.getConnection(URL);
+            System.out.println("Connection to SQLite has been established.");
+
+            // Prepare Statement
+            PreparedStatement preparedStatement =
+                    conn.prepareStatement("""
+                                                 select TrackId,Track.Name as TrackName, G.Name as GenreName, A.Title as Album, A2.Name as ArtistName from Track
+                                                 inner join Genre G on G.GenreId = Track.GenreId
+                                             inner join Album A on A.AlbumId = Track.AlbumId
+                                             inner join Artist A2 on A2.ArtistId = A.ArtistId WHERE Track.Name LIKE ?""");
+
+            preparedStatement.setString(1, trackName + "%");
+            // Execute Statement
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            // Process Results
+
+            while (resultSet.next()) {
+                track.add(new Track(
+                        resultSet.getInt("TrackId"),
+                        resultSet.getString("TrackName"),
+                        resultSet.getString("ArtistName"),
+                        resultSet.getString("Album"),
+                        resultSet.getString("GenreName")
+                ));
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                // Close Connection
+                conn.close();
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+
+            }
+        }
+        return track;
+    }
+
+
 }
