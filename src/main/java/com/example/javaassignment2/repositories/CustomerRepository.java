@@ -66,7 +66,7 @@ public class CustomerRepository implements CustomerInterface {
 
     @Override
     public List<CustomerCountry> selectNumberOfCustomersPerCountry() {
-        ArrayList<CustomerCountry> customerCountry = new ArrayList<>();
+        List<CustomerCountry> customerCountry = new ArrayList<>();
         try {
             // Open Connection
             conn = DriverManager.getConnection(URL);
@@ -235,7 +235,7 @@ public class CustomerRepository implements CustomerInterface {
     public Customer addNewCustomer(Customer newCustomer) {
         try {
             conn = DriverManager.getConnection(URL);
-            PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO Customer(FirstName,LastName,Country, PostalCode, Phone, Email) VALUES(?, ?, ?, ?,?,?)");
+            PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO Customer(FirstName,LastName,Country, PostalCode, Phone, Email) VALUES(?, ?, ?, ?, ?, ?)");
             setQueryParams(newCustomer, preparedStatement);
 
             preparedStatement.executeUpdate();
@@ -267,7 +267,7 @@ public class CustomerRepository implements CustomerInterface {
             preparedStatement.setInt(7, updatedCustomer.getCustomerID());
 
             int rowsEffected = preparedStatement.executeUpdate();
-            System.out.println(rowsEffected);
+
         } catch (Exception ex) {
             System.out.println("Something went wrong...");
             System.out.println(ex);

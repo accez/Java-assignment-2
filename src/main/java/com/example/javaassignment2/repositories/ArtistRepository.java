@@ -26,7 +26,7 @@ public class ArtistRepository implements ArtistInterface {
 
             // Prepare Statement
             PreparedStatement preparedStatement =
-                    conn.prepareStatement("select * from Artist order by random() limit 5;");
+                    conn.prepareStatement("SELECT * FROM Artist ORDER BY random() LIMIT 5;");
             // Execute Statement
             ResultSet resultSet = preparedStatement.executeQuery();
 

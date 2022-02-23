@@ -50,13 +50,4 @@ public class CustomerGenre{
         this.genres.add(genre);
     }
 
-    @Override
-    public String toString() {
-        return "CustomerGenre{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", genres=" + genres +
-                '}';
-    }
 }

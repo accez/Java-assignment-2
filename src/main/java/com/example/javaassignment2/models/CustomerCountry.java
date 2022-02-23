@@ -26,11 +26,4 @@ public class CustomerCountry {
         this.customers = customers;
     }
 
-    @Override
-    public String toString() {
-        return "CustomerCountry{" +
-                "country='" + country + '\'' +
-                ", customers=" + customers +
-                '}';
-    }
 }

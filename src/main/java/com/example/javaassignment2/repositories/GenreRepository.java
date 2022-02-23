@@ -17,6 +17,7 @@ public class GenreRepository implements GenreInterface {
 
     String URL = "jdbc:sqlite::resource:Chinook_Sqlite.sqlite";
     Connection conn = null;
+
     @Override
     public List<Genre> selectRandom() {
         ArrayList<Genre> genres = new ArrayList<>();
@@ -27,16 +28,16 @@ public class GenreRepository implements GenreInterface {
 
             // Prepare Statement
             PreparedStatement preparedStatement =
-                    conn.prepareStatement("select * from Genre order by random() limit 5;");
+                    conn.prepareStatement("SELECT * FROM Genre ORDER BY random() LIMIT 5;");
             // Execute Statement
             ResultSet resultSet = preparedStatement.executeQuery();
 
             // Process Results
             while (resultSet.next()) {
                 genres.add(
-                    new Genre(resultSet.getInt("GenreId"),
-                            resultSet.getString("Name")
-                            ));
+                        new Genre(resultSet.getInt("GenreId"),
+                                resultSet.getString("Name")
+                        ));
             }
         } catch (Exception ex) {
             ex.printStackTrace();

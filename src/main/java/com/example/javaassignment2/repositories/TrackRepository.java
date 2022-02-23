@@ -19,6 +19,7 @@ public class TrackRepository implements TrackInterface {
 
     String URL = "jdbc:sqlite::resource:Chinook_Sqlite.sqlite";
     Connection conn = null;
+
     @Override
     public List<Track> selectRandom() {
         ArrayList<Track> tracks = new ArrayList<>();
@@ -29,7 +30,7 @@ public class TrackRepository implements TrackInterface {
 
             // Prepare Statement
             PreparedStatement preparedStatement =
-                    conn.prepareStatement("select * from Track order by random() limit 5;");
+                    conn.prepareStatement("SELECT * FROM Track ORDER BY random() LIMIT 5;");
             // Execute Statement
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -58,7 +59,7 @@ public class TrackRepository implements TrackInterface {
 
     @Override
     public List<Track> getTrackInformation(String trackName) {
-        List <Track> track = new ArrayList<>();
+        List<Track> tracks = new ArrayList<>();
         try {
             // Open Connection
             conn = DriverManager.getConnection(URL);
@@ -67,10 +68,10 @@ public class TrackRepository implements TrackInterface {
             // Prepare Statement
             PreparedStatement preparedStatement =
                     conn.prepareStatement("""
-                                                 select TrackId,Track.Name as TrackName, G.Name as GenreName, A.Title as Album, A2.Name as ArtistName from Track
-                                                 inner join Genre G on G.GenreId = Track.GenreId
-                                             inner join Album A on A.AlbumId = Track.AlbumId
-                                             inner join Artist A2 on A2.ArtistId = A.ArtistId WHERE Track.Name LIKE ?""");
+                                SELECT TrackId,Track.Name as TrackName, Genre.Name as GenreName, Album.Title as Album, Artist.Name as ArtistName FROM Track
+                                    inner join Genre on Genre.GenreId = Track.GenreId
+                                    inner join Album on Album.AlbumId = Track.AlbumId
+                                    inner join Artist on Artist.ArtistId = Album.ArtistId WHERE Track.Name LIKE ?""");
 
             preparedStatement.setString(1, trackName + "%");
             // Execute Statement
@@ -79,7 +80,7 @@ public class TrackRepository implements TrackInterface {
             // Process Results
 
             while (resultSet.next()) {
-                track.add(new Track(
+                tracks.add(new Track(
                         resultSet.getInt("TrackId"),
                         resultSet.getString("TrackName"),
                         resultSet.getString("ArtistName"),
@@ -100,7 +101,7 @@ public class TrackRepository implements TrackInterface {
 
             }
         }
-        return track;
+        return tracks;
     }
 
 

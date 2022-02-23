@@ -25,20 +25,22 @@ public class MusicController {
     TrackInterface trackInterface;
 
     @GetMapping("genre/random")
-    public List<Genre> getRandomGenre(){
+    public List<Genre> getRandomGenre() {
         return genreInterface.selectRandom();
     }
 
     @GetMapping("artist/random")
-    public List<Artist> getRandomArtist(){
+    public List<Artist> getRandomArtist() {
         return artistInterface.selectRandom();
     }
+
     @GetMapping("track/random")
-    public List<Track> getRandomTrack(){
+    public List<Track> getRandomTrack() {
         return trackInterface.selectRandom();
     }
+
     @GetMapping("track/{name}")
-    public List <Track> getTrackByName(@PathVariable String name){
+    public List<Track> getTrackByName(@PathVariable String name) {
         return trackInterface.getTrackInformation(name);
     }
 }

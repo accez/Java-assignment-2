@@ -82,16 +82,4 @@ public class Customer {
         this.email = email;
     }
 
-    @Override
-    public String toString() {
-        return "Customer{" +
-                "customerID='" + customerID + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", country='" + country + '\'' +
-                ", postalCode='" + postalCode + '\'' +
-                ", phone='" + phone + '\'' +
-                ", email='" + email + '\'' +
-                '}';
-    }
 }

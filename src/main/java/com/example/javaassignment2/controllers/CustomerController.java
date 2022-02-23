@@ -27,13 +27,11 @@ public class CustomerController {
         return customerInterface.selectAllCustomersLimitAndOffset(limit, offset);
     }
 
-    //
     @GetMapping("customer/order/highestSpender")
     public List<CustomerSpender> selectAllCustomersOrderByHighestSpender() {
         return customerInterface.selectAllCustomersOrderByHighestSpender();
     }
 
-    //
     @GetMapping("customer/{customerId}")
     public Customer selectCustomerById(@PathVariable int customerId) {
         return customerInterface.selectCustomerById(customerId);
