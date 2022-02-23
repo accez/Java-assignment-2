@@ -2,9 +2,9 @@ package com.example.javaassignment2.models;
 
 public class Artist {
     private int artistId;
-    private int name;
+    private String name;
 
-    public Artist(int artistId, int name) {
+    public Artist(int artistId, String name) {
         this.artistId = artistId;
         this.name = name;
     }
@@ -17,11 +17,11 @@ public class Artist {
         this.artistId = artistId;
     }
 
-    public int getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(int name) {
+    public void setName(String name) {
         this.name = name;
     }
 }
