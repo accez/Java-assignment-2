@@ -21,9 +21,9 @@ public class MusicView {
     public String view(
             Model model
     ) {
-        model.addAttribute("artist",artistInterface.selectRandom());
-        model.addAttribute("track", trackInterface.selectRandom());
-        model.addAttribute("genre", genreInterface.selectRandom());
+        model.addAttribute("artists",artistInterface.selectRandom());
+        model.addAttribute("tracks", trackInterface.selectRandom());
+        model.addAttribute("genres", genreInterface.selectRandom());
         return "musicList";
     }
 

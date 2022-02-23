@@ -3,24 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <title>Music</title>
+    <link th:href="@{/Navbar.css}" rel="stylesheet" />
+    <style>
+        .content-container {
+            display: flex;
+            justify-content: space-between;
+            width: 70vw;
+            margin: auto;
+        }
+    </style>
 </head>
 <body>
-<ul>
-    <li><a href="/search">Search page</a></li>
-</ul>
-    <div>
-        <h2>Artist:</h2>
-        <ul th:each="art: ${artist}">
-            <li th:text="${art.getName()}"></li>
+    <header>
+        <ul>
+            <li><a href="#" class="active" >Home Page</a></li>
+            <li><a href="/search" >Search Page</a></li>
         </ul>
-        <h2>Tracks:</h2>
-        <ul th:each="tra: ${track}">
-            <li th:text="${tra.getName()}"></li>
-        </ul>
-        <h2>Genre:</h2>
-        <ul th:each="gen : ${genre}">
-            <li th:text="${gen.getName()}"></li>
-        </ul>
-    </div>
+    </header>
+
+    <section class="content-container">
+        <div>
+            <h2>Artist:</h2>
+            <ul th:each="artist: ${artists}">
+                <li th:text="${artist.getName()}"></li>
+            </ul>
+        </div>
+        <div>
+            <h2>Tracks:</h2>
+            <ul th:each="track: ${tracks}">
+                <li th:text="${track.getName()}"></li>
+            </ul>
+        </div>
+        <div>
+            <h2>Genre:</h2>
+            <ul th:each="genre: ${genres}">
+                <li th:text="${genre.getName()}"></li>
+            </ul>
+        </div>
+    </section>
 </body>
 </html>

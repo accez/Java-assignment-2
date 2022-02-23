@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Search</title>
+    <link th:href="@{/Navbar.css}" rel="stylesheet" />
     <style>
         table {
             font-family: arial, sans-serif;
@@ -19,12 +20,20 @@
         tr:nth-child(even) {
             background-color: #dddddd;
         }
+
+        form {
+            display: flex;
+            margin: 20px 0px;
+        }
     </style>
 </head>
-    <body>
-    <ul>
-        <li><a href="/">Home Page</a></li>
-    </ul>
+<body>
+    <header>
+        <ul>
+            <li><a href="/"  >Home Page</a></li>
+            <li><a href="/search" class="active">Search Page</a></li>
+        </ul>
+    </header>
 
     <form th:action="@{/search}">
             <div>
@@ -47,5 +56,6 @@
                 <td th:text="${track.getAlbumName()}"></td>
                 <td th:text="${track.getGenre()}"></td>
             </tr>
+        </table>
     </body>
 </html>
