@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Search</title>
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+</head>
+    <body>
+    <ul>
+        <li><a href="/">Home Page</a></li>
+    </ul>
+
+    <form th:action="@{/search}">
+            <div>
+                <input type="text" name="name" id="name" size="50" th:value="${name}" required />
+            </div>
+            <div>
+                <input type="submit" value="Submit" />
+            </div>
+        </form>
+        <table>
+            <tr>
+                <th>Track name</th>
+                <th>Artist name</th>
+                <th>Album name</th>
+                <th>Genre</th>
+            </tr>
+            <tr th:each="track: ${trackInfo}">
+                <td th:text="${track.getName()}"></td>
+                <td th:text="${track.getArtistName()}"></td>
+                <td th:text="${track.getAlbumName()}"></td>
+                <td th:text="${track.getGenre()}"></td>
+            </tr>
+    </body>
+</html>
