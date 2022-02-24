@@ -20,6 +20,10 @@ public class TrackRepository implements TrackInterface {
     String URL = "jdbc:sqlite::resource:Chinook_Sqlite.sqlite";
     Connection conn = null;
 
+    /**
+     * Returns 5 random tracks from db
+     * @return {@link List}
+     */
     @Override
     public List<Track> selectRandom() {
         ArrayList<Track> tracks = new ArrayList<>();
@@ -56,7 +60,10 @@ public class TrackRepository implements TrackInterface {
         }
         return tracks;
     }
-
+    /**
+     * Returns the name, genre, album and the artist for a specific track
+     * @return {@link List} containing any direct or partial matches
+     */
     @Override
     public List<Track> getTrackInformation(String trackName) {
         List<Track> tracks = new ArrayList<>();
@@ -95,7 +102,6 @@ public class TrackRepository implements TrackInterface {
             try {
                 // Close Connection
                 conn.close();
-
             } catch (Exception ex) {
                 ex.printStackTrace();
 

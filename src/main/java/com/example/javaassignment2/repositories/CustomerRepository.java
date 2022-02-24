@@ -16,6 +16,10 @@ public class CustomerRepository implements CustomerInterface {
     String URL = "jdbc:sqlite::resource:Chinook_Sqlite.sqlite";
     Connection conn = null;
 
+    /**
+     * Returns all customers from the db
+     * @return {@link List} of customer
+     */
     @Override
     public List<Customer> selectAllCustomers() {
         ArrayList<Customer> customers = new ArrayList<>();
@@ -59,11 +63,21 @@ public class CustomerRepository implements CustomerInterface {
         return customers;
     }
 
+    /**
+     *
+     * @param limit int - number of customer that will be returned
+     * @param offset int - start index
+     * @return {@link List} of customers
+     */
     @Override
     public List<Customer> selectAllCustomersLimitAndOffset(int limit, int offset) {
         return new ArrayList<>(selectAllCustomers().subList(offset, offset + limit));
     }
 
+    /**
+     * Returns a list {@link CustomerCountry} containing information with how many customers each country has
+     * @return {@link List} of customerCountry
+     */
     @Override
     public List<CustomerCountry> selectNumberOfCustomersPerCountry() {
         List<CustomerCountry> customerCountry = new ArrayList<>();
@@ -100,6 +114,10 @@ public class CustomerRepository implements CustomerInterface {
         return customerCountry;
     }
 
+    /**
+     * Returns all customers from db order by the highest spender descending
+     * @return {@link List} of customer
+     */
     @Override
     public List<CustomerSpender> selectAllCustomersOrderByHighestSpender() {
         List<CustomerSpender> customerSpenders = new ArrayList<>();
@@ -138,6 +156,11 @@ public class CustomerRepository implements CustomerInterface {
         return customerSpenders;
     }
 
+    /**
+     * Returns one customer by id
+     * @param id - customer id - int
+     * @return {@link Customer}
+     */
     @Override
     public Customer selectCustomerById(int id) {
         Customer customer = null;
@@ -184,6 +207,12 @@ public class CustomerRepository implements CustomerInterface {
         return customer;
     }
 
+    /**
+     * Returns one customer by first name and last name
+     * @param firstName - String value representing the customers first name
+     * @param lastName - String value representing the customers last name
+     * @return
+     */
     @Override
     public Customer selectCustomerByName(String firstName, String lastName) {
         Customer customer = null;
@@ -231,6 +260,11 @@ public class CustomerRepository implements CustomerInterface {
         return customer;
     }
 
+    /**
+     * Adds a new customer to the db
+     * @param newCustomer {@link Customer} to be inserted in to the db
+     * @return the added customer or null if error occur
+     */
     @Override
     public Customer addNewCustomer(Customer newCustomer) {
         try {
@@ -257,6 +291,11 @@ public class CustomerRepository implements CustomerInterface {
         return newCustomer;
     }
 
+    /**
+     * Updates an existing user
+     * @param updatedCustomer {@link Customer} containing the new information
+     * @return the updated user
+     */
     @Override
     public Customer updateCustomer(Customer updatedCustomer) {
         try {
@@ -284,6 +323,11 @@ public class CustomerRepository implements CustomerInterface {
         return updatedCustomer;
     }
 
+    /**
+     * Returns a customers most popular genre
+     * @param id - customer id
+     * @return {@link CustomerGenre}
+     */
     @Override
     public CustomerGenre getMostPopularGenreForCustomer(int id) {
 
@@ -346,6 +390,12 @@ public class CustomerRepository implements CustomerInterface {
         return customerGenre;
     }
 
+    /**
+     * Sets the fields of a customer from a preparedStatement
+     * @param updatedCustomer - customer to set
+     * @param preparedStatement - preparedStatement
+     * @throws SQLException
+     */
     private void setQueryParams(Customer updatedCustomer, PreparedStatement preparedStatement) throws SQLException {
         preparedStatement.setString(1, updatedCustomer.getFirstName());
         preparedStatement.setString(2, updatedCustomer.getLastName());

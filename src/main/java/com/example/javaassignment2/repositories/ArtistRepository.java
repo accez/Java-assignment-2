@@ -16,6 +16,11 @@ public class ArtistRepository implements ArtistInterface {
 
     String URL = "jdbc:sqlite::resource:Chinook_Sqlite.sqlite";
     Connection conn = null;
+
+    /**
+     * Returns 5 random artist
+     * @return {@link List} of Artist
+     */
     @Override
     public List<Artist> selectRandom() {
         ArrayList<Artist> artists = new ArrayList<>();

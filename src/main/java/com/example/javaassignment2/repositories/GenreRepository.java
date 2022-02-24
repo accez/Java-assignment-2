@@ -18,6 +18,10 @@ public class GenreRepository implements GenreInterface {
     String URL = "jdbc:sqlite::resource:Chinook_Sqlite.sqlite";
     Connection conn = null;
 
+    /**
+     * Returns 5 random genre from db
+     * @return {@link List}
+     */
     @Override
     public List<Genre> selectRandom() {
         ArrayList<Genre> genres = new ArrayList<>();
