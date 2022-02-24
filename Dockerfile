@@ -4,6 +4,9 @@ COPY . .
 RUN gradle bootJar
 
 FROM openjdk:17 as runtime
+
+LABEL org.opencontainers.image.source="https://github.com/accez/Java-assignment-2"
+
 WORKDIR /app
 ENV PORT 8080
 ENV SPRING_PROFILE production
