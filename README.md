@@ -41,6 +41,10 @@ The application consists of the following:
 - The Swagger documentation UI at ``/swagger-ui.html``
 - API endpoint for Customer and Music controllers.
 
+
+
+  [Application Demo](https://spring-test-java-assignment.herokuapp.com/)
+
 ## Install
 Clone the git repository.
 
