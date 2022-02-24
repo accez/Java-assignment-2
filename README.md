@@ -17,7 +17,7 @@ Java Spring Application that will show songs and manage customers.
 
 ## Background
 
-####Goal: On completion of this assignment you will be able to:
+### Goal: On completion of this assignment you will be able to:
 
 - Configure REST endpoints with Spring.
 - Create templated html pages with Thymeleaf.
