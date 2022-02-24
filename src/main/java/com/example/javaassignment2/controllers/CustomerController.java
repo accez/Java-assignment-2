@@ -75,7 +75,7 @@ public class CustomerController {
         return customerInterface.addNewCustomer(newCustomer);
     }
     /**
-     * REST endpoint for updating an existing user
+     * REST endpoint for updating all fields in an existing user
      * @param updatedCustomer {@link Customer} containing the new information
      * @return the updated user
      */

@@ -273,7 +273,6 @@ public class CustomerRepository implements CustomerInterface {
             try {
                 // Close Connection
                 conn.close();
-                return null;
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -284,7 +283,7 @@ public class CustomerRepository implements CustomerInterface {
     }
 
     /**
-     * Updates an existing user
+     * Updates all fields for an existing customer
      * @param updatedCustomer {@link Customer} containing the new information
      * @return the updated user
      */
@@ -305,7 +304,6 @@ public class CustomerRepository implements CustomerInterface {
             try {
                 // Close Connection
                 conn.close();
-                return null;
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
