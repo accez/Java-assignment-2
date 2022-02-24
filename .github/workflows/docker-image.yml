@@ -27,5 +27,4 @@ jobs:
     - name: Build the hello-world Docker image
       run: |
         docker build . --tag ghcr.io/simonpalmgren/springtest:1
-        docker run ghcr.io/simonpalmgren/springtest:1
         docker push ghcr.io/simonpalmgren/springtest:1
