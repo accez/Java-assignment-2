@@ -24,21 +24,38 @@ public class MusicController {
     @Autowired
     TrackInterface trackInterface;
 
+    /**
+     * REST endpoint returning 5 random genres
+     * @return {@link List} of {@link Genre}
+     */
     @GetMapping("genre/random")
     public List<Genre> getRandomGenre() {
         return genreInterface.selectRandom();
     }
 
+    /**
+     * REST endpoint returning 5 random artists
+     * @return {@link List} of {@link Artist}
+     */
     @GetMapping("artist/random")
     public List<Artist> getRandomArtist() {
         return artistInterface.selectRandom();
     }
 
+    /**
+     * REST endpoint returning 5 random tracks
+     * @return {@link List} of {@link Track}
+     */
     @GetMapping("track/random")
     public List<Track> getRandomTrack() {
         return trackInterface.selectRandom();
     }
 
+    /**
+     * REST endpoint returning list of tracks matching / partially matching the param
+     * @param name - String value of the track name
+     * @return {@link List}
+     */
     @GetMapping("track/{name}")
     public List<Track> getTrackByName(@PathVariable String name) {
         return trackInterface.getTrackInformation(name);

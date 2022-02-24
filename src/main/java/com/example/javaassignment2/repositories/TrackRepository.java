@@ -61,7 +61,7 @@ public class TrackRepository implements TrackInterface {
         return tracks;
     }
     /**
-     * Returns the name, genre, album and the artist for a specific track
+     * Returns the name, genre, album and the artist for tracks matching / partially matching the param
      * @return {@link List} containing any direct or partial matches
      */
     @Override
