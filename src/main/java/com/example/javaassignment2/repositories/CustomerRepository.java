@@ -277,8 +277,6 @@ public class CustomerRepository implements CustomerInterface {
                 ex.printStackTrace();
             }
         }
-        //Varför får vi ingt object tillbaka???
-        System.out.println(newCustomer);
         return newCustomer;
     }
 
