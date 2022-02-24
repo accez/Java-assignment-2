@@ -64,7 +64,7 @@ public class CustomerRepository implements CustomerInterface {
     }
 
     /**
-     *
+     * Returns list containing specified number of customer from specific start index
      * @param limit int - number of customer that will be returned
      * @param offset int - start index
      * @return {@link List} of customers
@@ -116,7 +116,7 @@ public class CustomerRepository implements CustomerInterface {
 
     /**
      * Returns all customers from db order by the highest spender descending
-     * @return {@link List} of customer
+     * @return {@link List} of {@link CustomerSpender}
      */
     @Override
     public List<CustomerSpender> selectAllCustomersOrderByHighestSpender() {
@@ -178,7 +178,6 @@ public class CustomerRepository implements CustomerInterface {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             // Process Results
-
             while (resultSet.next()) {
                 customer = new Customer(
                         resultSet.getInt("CustomerId"),
@@ -188,7 +187,6 @@ public class CustomerRepository implements CustomerInterface {
                         resultSet.getString("PostalCode"),
                         resultSet.getString("Phone"),
                         resultSet.getString("Email")
-
                 );
             }
 
@@ -198,10 +196,8 @@ public class CustomerRepository implements CustomerInterface {
             try {
                 // Close Connection
                 conn.close();
-
             } catch (Exception ex) {
                 ex.printStackTrace();
-
             }
         }
         return customer;
@@ -211,7 +207,7 @@ public class CustomerRepository implements CustomerInterface {
      * Returns one customer by first name and last name
      * @param firstName - String value representing the customers first name
      * @param lastName - String value representing the customers last name
-     * @return
+     * @return {@link Customer}
      */
     @Override
     public Customer selectCustomerByName(String firstName, String lastName) {
@@ -251,10 +247,8 @@ public class CustomerRepository implements CustomerInterface {
             try {
                 // Close Connection
                 conn.close();
-
             } catch (Exception ex) {
                 ex.printStackTrace();
-
             }
         }
         return customer;
@@ -274,16 +268,14 @@ public class CustomerRepository implements CustomerInterface {
 
             preparedStatement.executeUpdate();
         } catch (Exception ex) {
-            System.out.println("Something went wrong...");
-            System.out.println(ex);
+            ex.printStackTrace();
         } finally {
             try {
                 // Close Connection
                 conn.close();
                 return null;
             } catch (Exception ex) {
-                System.out.println("Something went wrong while closing connection.");
-                System.out.println(ex);
+                ex.printStackTrace();
             }
         }
         //Varför får vi ingt object tillbaka???
@@ -308,16 +300,14 @@ public class CustomerRepository implements CustomerInterface {
             int rowsEffected = preparedStatement.executeUpdate();
 
         } catch (Exception ex) {
-            System.out.println("Something went wrong...");
-            System.out.println(ex);
+            ex.printStackTrace();
         } finally {
             try {
                 // Close Connection
                 conn.close();
                 return null;
             } catch (Exception ex) {
-                System.out.println("Something went wrong while closing connection.");
-                System.out.println(ex);
+                ex.printStackTrace();
             }
         }
         return updatedCustomer;
@@ -375,18 +365,15 @@ public class CustomerRepository implements CustomerInterface {
 
             System.out.println(customerGenre);
         } catch (Exception ex) {
-            System.out.println("Something went wrong...");
-            System.out.println(ex);
+            ex.printStackTrace();
         } finally {
             try {
                 // Close Connection
                 conn.close();
             } catch (Exception ex) {
-                System.out.println("Something went wrong while closing connection.");
-                System.out.println(ex);
+                ex.printStackTrace();
             }
         }
-        System.out.println( "rutnr " + customerGenre);
         return customerGenre;
     }
 
