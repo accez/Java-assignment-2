@@ -41,6 +41,11 @@ The application consists of the following:
 - The Swagger documentation UI at ``/swagger-ui.html``
 - API endpoint for Customer and Music controllers.
 
+The CI-pipeline will:
+
+- Package the built application into a Docker image, proceeding if successful.
+- Push the Docker image to the local registry on Github.
+- Trigger the build pipeline on Heroku to pull the latest image and replace the current running dyno.
 
 
   [Application Demo](https://spring-test-java-assignment.herokuapp.com/)
